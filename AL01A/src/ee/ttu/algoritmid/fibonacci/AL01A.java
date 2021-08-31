@@ -10,8 +10,16 @@ public class AL01A {
     public String iterativeF(int n) {
         Integer[] f = new Integer[n + 1];
         f[0] = f[1] = 1;
-        for (int i = 3; i <= n; i++)
+        for (int i = 2; i <= n; i++)
             f[i] = f[i-1] + f[i-2];
         return String.valueOf(f[n]);
+    }
+
+    public static void main(String[] args) {
+        AL01A a = new AL01A();
+        System.out.println(a.iterativeF(3));
+        System.out.println(a.iterativeF(5));
+        System.out.println(a.iterativeF(4));
+        System.out.println(a.iterativeF(6));
     }
 }
