@@ -32,7 +32,6 @@ public class AL01B {
     public long calculateMillisToYears(final long millis) {
         long time;
         time = millis / dayInSeconds;
-        time = time / yearInDays;
         return time;
     }
 
