@@ -10,11 +10,11 @@ public class AL01A {
      * @param n The number of the sequence to compute.
      * @return The n-th number in Fibonacci series.
      */
-    public String iterativeF(final Integer n) {
+    public String iterativeF(final int n) {
         int a = 0;
         int b = 1;
         int c;
-        for (Integer i = 1; i <= n; i++) {
+        for (int i = 1; i <= n; i++) {
             c = a + b;
             a = b;
             b = c;
