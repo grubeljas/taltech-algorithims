@@ -8,11 +8,7 @@ public class AL01B {
     /**
      * day in seconds.
      */
-    private long dayInSeconds = Timer.ONE_DAY;
-    /**
-     * year in days.
-     */
-    private long yearInDays = 365L;
+    private long dayInSeconds = Timer.ONE_DAY * 365;
 
     /**
      * find the exact time required to compute the n-th Fibonacci number.
