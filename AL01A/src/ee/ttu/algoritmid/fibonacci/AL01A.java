@@ -12,12 +12,12 @@ public class AL01A {
      * @param n The number of the sequence to compute.
      * @return The n-th number in Fibonacci series.
      */
-    public String iterativeF(final BigInteger n) {
-        int a = 0;
-        int b = 1;
-        int c;
-        for (int i = 1; i <= n.intValue(); i++) {
-            c = a + b;
+    public String iterativeF(final int n) {
+        BigInteger a = new BigInteger("0");
+        BigInteger b = new BigInteger("1");
+        BigInteger c;
+        for (int i = 1; i <= n; i++) {
+            c = a.add(b);
             a = b;
             b = c;
         }
