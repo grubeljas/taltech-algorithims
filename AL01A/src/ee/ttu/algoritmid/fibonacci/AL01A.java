@@ -11,7 +11,7 @@ public class AL01A {
      * @return The n-th number in Fibonacci series.
      */
     public long iterativeF(final Integer n) {
-        long[] f = new long[n + 1];
+        Integer[] f = new Integer[n + 1];
         f[0] = 0;
         f[1] = 1;
         for (int i = 2; i <= n; i++) {
