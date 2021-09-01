@@ -10,9 +10,11 @@ public class AL01A {
      * @param n The number of the sequence to compute.
      * @return The n-th number in Fibonacci series.
      */
-    public Integer iterativeF(final Integer n) {
-        if (n <= 1) {
+    public Integer iterativeF(Integer n) {
+        if (n == 1) {
             return 1;
+        } else if (n == 0) {
+            return 0;
         }
         Integer[] f = new Integer[n + 1];
         f[0] = 1;
