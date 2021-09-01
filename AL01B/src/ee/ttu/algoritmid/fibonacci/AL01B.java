@@ -5,8 +5,14 @@ import java.math.BigInteger;
 
 public class AL01B {
 
-    long dayInSeconds = Timer.ONE_DAY;
-    long yearInDays = 365L;
+    /**
+     * day in seconds.
+     */
+    private long dayInSeconds = Timer.ONE_DAY;
+    /**
+     * year in days.
+     */
+    private long yearInDays = 365L;
 
     /**
      * find the exact time required to compute the n-th Fibonacci number.
