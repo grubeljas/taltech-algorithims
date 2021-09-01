@@ -5,18 +5,19 @@ package ee.ttu.algoritmid.fibonacci;
 
 public class AL01A {
 
+    private Integer a = 1, b = 1, c;
+
     /**
      * Compute the Fibonacci sequence numbr.
      * @param n The number of the sequence to compute.
      * @return The n-th number in Fibonacci series.
      */
-    public long iterativeF(final Integer n) {
-        Integer[] f = new Integer[n + 1];
-        f[0] = 0;
-        f[1] = 1;
-        for (int i = 2; i <= n; i++) {
-            f[i] = f[i - 1] + f[i - 2];
+    public int iterativeF(final Integer n) {
+        for (int i = 3; i <= n; i++) {
+            c = a + b;
+            a = b;
+            b = c;
         }
-        return f[n];
+        return a;
     }
 }
