@@ -3,6 +3,8 @@
  */
 package ee.ttu.algoritmid.fibonacci;
 
+import java.math.BigInteger;
+
 public class AL01A {
 
     /**
@@ -10,11 +12,11 @@ public class AL01A {
      * @param n The number of the sequence to compute.
      * @return The n-th number in Fibonacci series.
      */
-    public String iterativeF(final int n) {
+    public String iterativeF(final BigInteger n) {
         int a = 0;
         int b = 1;
         int c;
-        for (int i = 1; i <= n; i++) {
+        for (int i = 1; i <= n.intValue(); i++) {
             c = a + b;
             a = b;
             b = c;
