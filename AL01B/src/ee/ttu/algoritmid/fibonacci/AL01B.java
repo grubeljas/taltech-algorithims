@@ -8,8 +8,9 @@ public class AL01B {
     /**
      * day in seconds.
      */
-    private final static long dayInSeconds = Timer.ONE_DAY;
+    private final static long DAYINMILLI = Timer.ONE_DAY;
     private final static long ONEYEAR = 365;
+    private final static long THOUSAND = 1000;
 
     /**
      * find the exact time required to compute the n-th Fibonacci number.
@@ -28,12 +29,12 @@ public class AL01B {
      * Compute speed on basic value.
      * @param base
      */
-    public static BigInteger computeSpeed(int base) {
+    public BigInteger computeSpeed(int base) {
 
         long startTime = System.nanoTime(); // 3 F(n) - 2
-        BigInteger f = new AL01B().recursiveF(base);
+        BigInteger f = recursiveF(base);
         long stopTime = System.nanoTime();
-        BigInteger time = BigInteger.valueOf(stopTime - startTime);
+        BigInteger time = BigInteger.valueOf((stopTime - startTime)/ THOUSAND ^ 2);
         return time.divide(f.multiply(BigInteger.valueOf(3L)).subtract(BigInteger.valueOf(2L)));
     }
 
@@ -62,8 +63,7 @@ public class AL01B {
     public float calculateMillisToYears(final BigInteger millis) {
         float time;
         float millisInDouble = millis.floatValue();
-        time = millisInDouble / dayInSeconds;
-        time = time / ONEYEAR;
+        time = millisInDouble / (DAYINMILLI * ONEYEAR);
         return time;
     }
 
@@ -83,8 +83,6 @@ public class AL01B {
     public static void main(String[] args) {
         AL01B a = new AL01B();
         System.out.println(a.timeToComputeRecursiveFibonacci(10));
-        System.out.println(BigInteger.valueOf(1000L).floatValue());
-        System.out.println(String.valueOf(1.223f));
     }
 
 }
