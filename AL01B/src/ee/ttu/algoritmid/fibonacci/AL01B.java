@@ -10,6 +10,11 @@ public class AL01B {
      */
     private long dayInSeconds = Timer.ONE_DAY;
     private final long oNEYEAR = 365;
+    private Long TIMEPERLINE; //in millis
+
+    public AL01B() {
+        computeSpeed(10);
+    }
 
     /**
      * find the exact time required to compute the n-th Fibonacci number.
@@ -17,12 +22,19 @@ public class AL01B {
      * @return The time estimate or exact time in YEARS.
      */
     public String timeToComputeRecursiveFibonacci(final int n) {
-        Long start = System.currentTimeMillis();
-        iterativeF(n);
+        BigInteger fN = iterativeF(n);
+        BigInteger numberOfLines = fN.multiply(BigInteger.valueOf(3L)).subtract(BigInteger.valueOf(2L));
+        float time = calculateMillisToYears(numberOfLines.multiply(BigInteger.valueOf(TIMEPERLINE)));
+        return String.valueOf(time);
+    }
+
+    public void computeSpeed(int base) {
+        Long start = System.currentTimeMillis();  // 3 F(n) - 2
+        BigInteger f = recursiveF(base);
         Long finish = System.currentTimeMillis();
-        Long time = finish - start;
-        Float trueTime = calculateMillisToYears(time);
-        return String.valueOf(trueTime);
+        finish -= start;
+        Long l = finish / (3 * f.intValue() - 2);
+        TIMEPERLINE = l;
     }
 
     /**
@@ -30,12 +42,16 @@ public class AL01B {
      * @param n The number of the sequence to compute.
      * @return The n-th number in Fibonacci series.
      */
-    public String iterativeF(int n) {
-        Integer[] f = new Integer[n + 1];
-        f[0] = f[1] = 1;
-        for (int i = 2; i <= n; i++)
-            f[i] = f[i-1] + f[i-2];
-        return String.valueOf(f[n]);
+    public BigInteger iterativeF(final int n) {
+        BigInteger a = new BigInteger("0");
+        BigInteger b = new BigInteger("1");
+        BigInteger c;
+        for (int i = 1; i <= n; i++) {
+            c = a.add(b);
+            a = b;
+            b = c;
+        }
+        return a;
     }
 
     /**
@@ -43,7 +59,7 @@ public class AL01B {
      * @param millis
      * @return time in years
      */
-    public float calculateMillisToYears(final Long millis) {
+    public float calculateMillisToYears(final BigInteger millis) {
         float time;
         float millisInDouble = millis.floatValue();
         time = millisInDouble / dayInSeconds;
@@ -63,4 +79,12 @@ public class AL01B {
         }
         return recursiveF(n - 1).add(recursiveF(n - 2));
     }
+
+    public static void main(String[] args) {
+        AL01B a = new AL01B();
+        System.out.println(a.iterativeF(10));
+        System.out.println(a.timeToComputeRecursiveFibonacci(10));
+    }
+
 }
+
