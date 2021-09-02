@@ -17,12 +17,12 @@ public class AL01B {
      * @param n The n-th number to compute.
      * @return The time estimate or exact time in YEARS.
      */
-    public float timeToComputeRecursiveFibonacci(final int n) {
+    public String timeToComputeRecursiveFibonacci(final int n) {
         BigInteger timePerLine = computeSpeed(10);
         BigInteger fN = iterativeF(n);
         BigInteger numberOfLines = fN.multiply(BigInteger.valueOf(3L)).subtract(BigInteger.valueOf(2L));
         float time = calculateMillisToYears(numberOfLines.multiply(timePerLine));
-        return time;
+        return String.valueOf(time);
     }
 
     /**
@@ -34,7 +34,7 @@ public class AL01B {
         long startTime = System.nanoTime(); // 3 F(n) - 2
         BigInteger f = recursiveF(base);
         long stopTime = System.nanoTime();
-        BigInteger time = BigInteger.valueOf((stopTime - startTime)/ THOUSAND ^ 2);
+        BigInteger time = BigInteger.valueOf((stopTime - startTime) / (THOUSAND * THOUSAND));
         return time.divide(f.multiply(BigInteger.valueOf(3L)).subtract(BigInteger.valueOf(2L)));
     }
 
