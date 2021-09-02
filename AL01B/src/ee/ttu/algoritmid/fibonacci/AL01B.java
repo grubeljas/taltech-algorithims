@@ -9,7 +9,7 @@ public class AL01B {
      * day in seconds.
      */
     private long dayInSeconds = Timer.ONE_DAY;
-    private final long ONEYEAR = 365;
+    private final long oNEYEAR = 365;
 
     /**
      * find the exact time required to compute the n-th Fibonacci number.
@@ -18,11 +18,28 @@ public class AL01B {
      */
     public String timeToComputeRecursiveFibonacci(final int n) {
         Long start = System.currentTimeMillis();
-        recursiveF(n);
+        iterativeF(n);
         Long finish = System.currentTimeMillis();
         Long time = finish - start;
         Float trueTime = calculateMillisToYears(time);
         return String.valueOf(trueTime);
+    }
+
+    /**
+     * Compute the Fibonacci sequence numbr.
+     * @param n The number of the sequence to compute.
+     * @return The n-th number in Fibonacci series.
+     */
+    public String iterativeF(final int n) {
+        BigInteger a = new BigInteger("0");
+        BigInteger b = new BigInteger("1");
+        BigInteger c;
+        for (int i = 1; i <= n; i++) {
+            c = a.add(b);
+            a = b;
+            b = c;
+        }
+        return String.valueOf(a);
     }
 
     /**
@@ -34,7 +51,7 @@ public class AL01B {
         float time;
         float millisInDouble = millis.floatValue();
         time = millisInDouble / dayInSeconds;
-        time = time / ONEYEAR;
+        time = time / oNEYEAR;
         return time;
     }
 
