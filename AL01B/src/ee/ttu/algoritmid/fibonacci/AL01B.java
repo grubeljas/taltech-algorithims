@@ -2,40 +2,49 @@ package ee.ttu.algoritmid.fibonacci;
 
 import javax.management.timer.Timer;
 import java.math.BigInteger;
+import java.util.concurrent.TimeUnit;
 
 public class AL01B {
 
     /**
-     * day in seconds.
-     */
-    private final static long DAYINMILLI = Timer.ONE_DAY;
-    private final static long ONEYEAR = 365;
-    private final static long THOUSAND = 1000;
-
-    /**
-     * find the exact time required to compute the n-th Fibonacci number.
+     * Estimate or find the exact time required to compute the n-th Fibonacci number.
      * @param n The n-th number to compute.
      * @return The time estimate or exact time in YEARS.
      */
-    public String timeToComputeRecursiveFibonacci(final int n) {
-        BigInteger timePerLine = computeSpeed(10);
-        BigInteger fN = iterativeF(n);
-        BigInteger numberOfLines = fN.multiply(BigInteger.valueOf(3L)).subtract(BigInteger.valueOf(2L));
-        float time = calculateMillisToYears(numberOfLines.multiply(timePerLine));
-        return String.valueOf(time);
+    public String timeToComputeRecursiveFibonacci(int n) {
+        float timePerLine = computeSpeedOfBaseValue(15);
+        BigInteger number = iterativeF(n);
+        float time = timePerLine * (number.multiply(BigInteger.valueOf(3L))
+                .subtract(BigInteger.valueOf(2L))).floatValue() ;
+        return String.valueOf(convertNanoToYears(time));
+    }
+
+    public float convertNanoToYears(float time) {
+        float nano = time;
+        float millis = nano / (1000F * 1000F);
+        float years = millis / (365*24*60*60*1000F);
+        return years;
+    }
+
+    public float computeSpeedOfBaseValue(int n) {
+        long start = System.nanoTime();
+        BigInteger number = recursiveF(n); // 3 * F(n) - 2
+        float time = (System.nanoTime() - start);
+        //time /= 1000000; // in millis
+        return time / (number.multiply(BigInteger.valueOf(3L))
+                .subtract(BigInteger.valueOf(2L))).floatValue();
     }
 
     /**
-     * Compute speed on basic value.
-     * @param base
+     * Compute the Fibonacci sequence number recursively.
+     * (You need this in the timeToComputeRecursiveFibonacci(int n) function!)
+     * @param n The n-th number to compute.
+     * @return The n-th Fibonacci number as a string.
      */
-    public BigInteger computeSpeed(int base) {
-
-        long startTime = System.nanoTime(); // 3 F(n) - 2
-        BigInteger f = recursiveF(base);
-        long stopTime = System.nanoTime();
-        BigInteger time = BigInteger.valueOf((stopTime - startTime) / (THOUSAND * THOUSAND));
-        return time.divide(f.multiply(BigInteger.valueOf(3L)).subtract(BigInteger.valueOf(2L)));
+    public BigInteger recursiveF(int n) {
+        if (n <= 1)
+            return BigInteger.valueOf(n);
+        return recursiveF(n - 1).add(recursiveF(n - 2));
     }
 
     /**
@@ -55,35 +64,8 @@ public class AL01B {
         return a;
     }
 
-    /**
-     * Calculate millis to years.
-     * @param millis in BigInteger.
-     * @return time in years
-     */
-    public float calculateMillisToYears(final BigInteger millis) {
-        float time;
-        float millisInDouble = millis.floatValue();
-        time = millisInDouble / (DAYINMILLI * ONEYEAR);
-        return time;
-    }
-
-    /**
-     * Compute the Fibonacci sequence number recursively.
-     * (You need this in the timeToComputeRecursiveFibonacci(int n) function!)
-     * @param n The n-th number to compute.
-     * @return The n-th Fibonacci number as a string.
-     */
-    public BigInteger recursiveF(final int n) {
-        if (n <= 1) {
-            return BigInteger.valueOf(n);
-        }
-        return recursiveF(n - 1).add(recursiveF(n - 2));
-    }
-
-    public static void main(String[] args) {
+    public static void main(String[] args) throws InterruptedException {
         AL01B a = new AL01B();
-        System.out.println(a.timeToComputeRecursiveFibonacci(10));
+        System.out.println(a.timeToComputeRecursiveFibonacci(70));
     }
-
 }
-
