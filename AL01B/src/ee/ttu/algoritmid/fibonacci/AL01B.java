@@ -1,18 +1,16 @@
 package ee.ttu.algoritmid.fibonacci;
 
-import javax.management.timer.Timer;
 import java.math.BigInteger;
-import java.util.concurrent.TimeUnit;
 
 public class AL01B {
 
     /**
-     * Estimate or find the exact time required to compute the n-th Fibonacci number.
+     * Estimate exact time required to compute the n-th Fibonacci number.
      * @param n The n-th number to compute.
      * @return The time estimate or exact time in YEARS.
      */
     public String timeToComputeRecursiveFibonacci(int n) {
-        float timePerLine = computeSpeedOfBaseValue(15);
+        float timePerLine = computeSpeedOfBaseValue(10);
         BigInteger number = iterativeF(n);
         float time = timePerLine * (number.multiply(BigInteger.valueOf(3L))
                 .subtract(BigInteger.valueOf(2L))).floatValue() ;
@@ -22,7 +20,7 @@ public class AL01B {
     public float convertNanoToYears(float time) {
         float nano = time;
         float millis = nano / (1000F * 1000F);
-        float years = millis / (365*24*60*60*1000F);
+        float years = millis / (365 * 24 * 60 * 60 * 1000F);
         return years;
     }
 
@@ -30,7 +28,6 @@ public class AL01B {
         long start = System.nanoTime();
         BigInteger number = recursiveF(n); // 3 * F(n) - 2
         float time = (System.nanoTime() - start);
-        //time /= 1000000; // in millis
         return time / (number.multiply(BigInteger.valueOf(3L))
                 .subtract(BigInteger.valueOf(2L))).floatValue();
     }
