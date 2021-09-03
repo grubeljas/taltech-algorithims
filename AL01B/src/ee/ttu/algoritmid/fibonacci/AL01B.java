@@ -10,13 +10,18 @@ public class AL01B {
      * @return The time estimate or exact time in YEARS.
      */
     public String timeToComputeRecursiveFibonacci(int n) {
-        float timePerLine = computeSpeedOfBaseValue(10);
+        float timePerLine = computeSpeedOfBaseValue(17);
         BigInteger number = iterativeF(n);
         float time = timePerLine * (number.multiply(BigInteger.valueOf(3L))
                 .subtract(BigInteger.valueOf(2L))).floatValue() ;
         return String.valueOf(convertNanoToYears(time));
     }
 
+    /**
+     * Convert time from nanoseconds to years.
+     * @param time
+     * @return
+     */
     public float convertNanoToYears(float time) {
         float nano = time;
         float millis = nano / (1000F * 1000F);
