@@ -14,7 +14,7 @@ public class AL01B {
     public String timeToComputeRecursiveFibonacci(int n) {
         float time = methodViaSpeed(n);
         float time1 = methodViaProportion(n);
-        return String.valueOf(convertNanoToYears(time1));
+        return String.valueOf(convertNanoToYears(time));
     }
 
     public float methodViaSpeed(int n) {
