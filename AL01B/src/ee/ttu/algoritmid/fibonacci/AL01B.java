@@ -4,37 +4,52 @@ import java.math.BigInteger;
 
 public class AL01B {
 
+    private final int BASE = 20;
+
     /**
      * Estimate exact time required to compute the n-th Fibonacci number.
      * @param n The n-th number to compute.
      * @return The time estimate or exact time in YEARS.
      */
     public String timeToComputeRecursiveFibonacci(int n) {
-        float timePerLine = computeSpeedOfBaseValue(17);
+        float time = methodViaSpeed(n);
+        float time1 = methodViaProportion(n);
+        return String.valueOf(convertNanoToYears(time1));
+    }
+
+    public float methodViaSpeed(int n) {
+        float timePerLine = computeSpeedOfBaseValue(BASE) / (iterativeF(BASE).multiply(BigInteger.valueOf(3L)).subtract(BigInteger.valueOf(2L))).floatValue();
         BigInteger number = iterativeF(n);
-        float time = timePerLine * (number.multiply(BigInteger.valueOf(3L))
-                .subtract(BigInteger.valueOf(2L))).floatValue() ;
-        return String.valueOf(convertNanoToYears(time));
+        return timePerLine * (number.multiply(BigInteger.valueOf(3L)).subtract(BigInteger.valueOf(2L))).floatValue();
+    }
+
+    public float methodViaProportion(int n) {
+        float timeBase = computeSpeedOfBaseValue(BASE);
+        float koefficient = computeSpeedOfBaseValue(BASE + 1) / timeBase;
+        return  (float) (timeBase * (Math.pow(koefficient, (n - BASE))));
     }
 
     /**
      * Convert time from nanoseconds to years.
-     * @param time
-     * @return
+     * @param time time
+     * @return years
      */
     public float convertNanoToYears(float time) {
-        float nano = time;
-        float millis = nano / (1000F * 1000F);
-        float years = millis / (365 * 24 * 60 * 60 * 1000F);
-        return years;
+        float millis = time / (1000F * 1000F);
+        return millis / (365 * 24 * 60 * 60 * 1000F);
     }
 
+    /**
+     * Compute speed based on base value.
+     * @param n base
+     * @return time in nano
+     */
     public float computeSpeedOfBaseValue(int n) {
         long start = System.nanoTime();
         BigInteger number = recursiveF(n); // 3 * F(n) - 2
         float time = (System.nanoTime() - start);
-        return time / (number.multiply(BigInteger.valueOf(3L))
-                .subtract(BigInteger.valueOf(2L))).floatValue();
+        return time;
+        // return time / (number.multiply(BigInteger.valueOf(3L)).subtract(BigInteger.valueOf(2L))).floatValue();
     }
 
     /**
@@ -66,8 +81,7 @@ public class AL01B {
         return a;
     }
 
-    public static void main(String[] args) throws InterruptedException {
+    public static void main(String[] args) {
         AL01B a = new AL01B();
-        System.out.println(a.timeToComputeRecursiveFibonacci(70));
     }
 }
