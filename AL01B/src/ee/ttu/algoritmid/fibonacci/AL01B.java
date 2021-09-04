@@ -7,7 +7,7 @@ public class AL01B {
     private final int BASE = 20;
 
     /**
-     * Estimate exact time required to compute the n-th Fibonacci number.
+     * Estimate exact time required to comute the n-th Fibonacci number.
      * @param n The n-th number to compute.
      * @return The time estimate or exact time in YEARS.
      */
