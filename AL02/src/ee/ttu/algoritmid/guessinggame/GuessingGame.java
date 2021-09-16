@@ -5,8 +5,15 @@ import java.util.Comparator;
 
 public class GuessingGame {
 
+    /**
+     * oracle.
+     */
     Oracle oracle;
 
+    /**
+     * Constructor.
+     * @param oracle
+     */
     public GuessingGame(Oracle oracle) {
         this.oracle = oracle;
     }
@@ -40,7 +47,7 @@ public class GuessingGame {
      * @param fruits fruits assortment.
      * @return sorted.
      */
-    public Fruit[] sort(Fruit[] fruits) {
+    public Fruit[] sort(final Fruit[] fruits) {
         return Arrays.stream(fruits)
                 .sorted(Comparator.comparing(Fruit::getWeight))
                 .toArray(Fruit[]::new);

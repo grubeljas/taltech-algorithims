@@ -1,9 +1,16 @@
 package ee.ttu.algoritmid.guessinggame;
 public class Oracle {
 
-    private Fruit fruit;
+    /**
+     * Fruit.
+     */
+    private final Fruit fruit;
 
-    public Oracle(Fruit fruit) {
+    /**
+     * Oracle constructor.
+     * @param fruit
+     */
+    public Oracle(final Fruit fruit) {
         this.fruit = fruit;
     }
 
@@ -14,7 +21,7 @@ public class Oracle {
      *     "lighter" if correct fruit is lighter than your guess
      *     "correct!" if your guess is correct
      */
-    public String isIt(Fruit fruitGuess) {
+    public String isIt(final Fruit fruitGuess) {
         if (this.fruit.getWeight() > fruitGuess.getWeight()) {
             return "heavier";
         } else if (this.fruit.getWeight() < fruitGuess.getWeight()) {
