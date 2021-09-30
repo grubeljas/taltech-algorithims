@@ -6,7 +6,7 @@ import java.util.HashMap;
 public class Popularity {
 
     private int max;
-    public HashMap<Integer[], Integer> points;
+    public HashMap<Integer[], Integer> points = new HashMap<>();
 
     public Popularity(int maxCoordinates) {
         max = maxCoordinates;
