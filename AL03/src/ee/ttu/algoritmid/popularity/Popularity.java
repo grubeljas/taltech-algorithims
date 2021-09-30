@@ -54,13 +54,6 @@ public class Popularity {
         if (points.isEmpty()) {
             return 0;
         }
-        Integer maxPopularPoint = points.keySet().stream()
-                .max(Comparator.comparing(x -> points.get(x))).get();
-        return points.get(maxPopularPoint);
-    }
-
-    public static void main(String[] args) {
-        Popularity p = new Popularity(100);
-        System.out.println(p.maxPopularity());
+        return (int)points.values().stream().sorted().toArray()[points.size() - 1];
     }
 }
