@@ -39,7 +39,7 @@ public class Popularity {
     int maxPopularity() {
         Integer[] maxPopularPoint = points.keySet().stream()
                 .max(Comparator.comparing(x -> points.get(x))).get();
-        return maxPopularPoint[0];
+        return maxPopularPoint.length;
     }
 
 }
