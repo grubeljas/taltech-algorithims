@@ -51,8 +51,16 @@ public class Popularity {
      * @return the number of occurrennces of the most popular point
      */
     int maxPopularity() {
+        if (points.isEmpty()) {
+            return 0;
+        }
         Integer maxPopularPoint = points.keySet().stream()
                 .max(Comparator.comparing(x -> points.get(x))).get();
         return points.get(maxPopularPoint);
+    }
+
+    public static void main(String[] args) {
+        Popularity p = new Popularity(100);
+        System.out.println(p.maxPopularity());
     }
 }
