@@ -1,9 +1,15 @@
 package ee.ttu.algoritmid.popularity;
 
+import java.util.Comparator;
+import java.util.HashMap;
+
 public class Popularity {
 
-    public Popularity(int maxCoordinates) {
+    private int max;
+    public HashMap<Integer[], Integer> points;
 
+    public Popularity(int maxCoordinates) {
+        max = maxCoordinates;
     }
 
     /**
@@ -11,7 +17,11 @@ public class Popularity {
      * adds a picture at the point with coordinates (x, y)
      */
     void addPoint(Integer x, Integer y) {
-        // todo
+        Integer[] point = {x, y};
+        if (points.size() < max && !points.containsKey(point)) {
+            return;
+        }
+        points.put(point, points.getOrDefault(point, 0) + 1);
     }
 
     /**
@@ -19,7 +29,7 @@ public class Popularity {
      * @return the number of occurrennces of the point
      */
     int pointPopularity(Integer x,Integer y) {
-        return 0;
+        return points.getOrDefault(new Integer[]{x,y}, 0);
     }
 
 
@@ -27,7 +37,9 @@ public class Popularity {
      * @return the number of occurrennces of the most popular point
      */
     int maxPopularity() {
-        return 0;
+        Integer[] maxPopularPoint = points.keySet().stream()
+                .max(Comparator.comparing(x -> points.get(x))).get();
+        return maxPopularPoint[0];
     }
 
 }
