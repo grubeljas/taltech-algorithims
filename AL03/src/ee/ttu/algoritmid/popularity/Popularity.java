@@ -7,14 +7,12 @@ import java.util.HashMap;
 public class Popularity {
 
     private final int max;
+    private int mostPopular;
     public HashMap<Integer, Integer> points = new HashMap<>();
 
     public Popularity(int maxCoordinates) {
-        if (maxCoordinates >= 100000) {
-            max = 99999;
-        } else {
-            max = maxCoordinates;
-        }
+        this.max = maxCoordinates;
+        this.mostPopular = 0;
     }
 
     /**
@@ -31,6 +29,7 @@ public class Popularity {
             Integer value = points.get(pointKey);
             points.put(pointKey, value + 1);
         }
+        mostPopular = (int)points.values().stream().sorted().toArray()[points.size() - 1];
     }
 
     /**
@@ -51,9 +50,6 @@ public class Popularity {
      * @return the number of occurrennces of the most popular point
      */
     int maxPopularity() {
-        if (points.isEmpty()) {
-            return 0;
-        }
-        return (int)points.values().stream().sorted().toArray()[points.size() - 1];
+        return mostPopular;
     }
 }
