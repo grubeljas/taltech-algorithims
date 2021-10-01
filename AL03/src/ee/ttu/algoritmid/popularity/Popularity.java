@@ -1,18 +1,16 @@
 package ee.ttu.algoritmid.popularity;
 
 import java.awt.Point;
-import java.util.Comparator;
+import java.util.Collections;
 import java.util.HashMap;
 
 public class Popularity {
 
     private final int max;
-    private int mostPopular;
     public HashMap<Integer, Integer> points = new HashMap<>();
 
     public Popularity(int maxCoordinates) {
         this.max = maxCoordinates;
-        this.mostPopular = 0;
     }
 
     /**
@@ -29,7 +27,6 @@ public class Popularity {
             Integer value = points.get(pointKey);
             points.put(pointKey, value + 1);
         }
-        mostPopular = (int)points.values().stream().sorted().toArray()[points.size() - 1];
     }
 
     /**
@@ -50,6 +47,9 @@ public class Popularity {
      * @return the number of occurrennces of the most popular point
      */
     int maxPopularity() {
-        return mostPopular;
+        if (points.isEmpty()) {
+            return 0;
+        }
+        return Collections.max(points.values());
     }
 }
