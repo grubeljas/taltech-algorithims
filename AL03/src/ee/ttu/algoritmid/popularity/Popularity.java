@@ -7,10 +7,12 @@ import java.util.HashMap;
 public class Popularity {
 
     private final int max;
+    private int mostInterest;
     public HashMap<Integer, Integer> points = new HashMap<>();
 
     public Popularity(int maxCoordinates) {
         this.max = maxCoordinates;
+        this.mostInterest = 0;
     }
 
     /**
@@ -25,6 +27,9 @@ public class Popularity {
             }
         } else {
             Integer value = points.get(pointKey);
+            if (value + 1 > mostInterest) {
+                mostInterest = value + 1;
+            }
             points.put(pointKey, value + 1);
         }
     }
@@ -50,6 +55,6 @@ public class Popularity {
         if (points.isEmpty()) {
             return 0;
         }
-        return Collections.max(points.values());
+        return mostInterest;
     }
 }
