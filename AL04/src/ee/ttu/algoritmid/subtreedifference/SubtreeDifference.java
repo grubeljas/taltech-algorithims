@@ -9,22 +9,29 @@ public class SubtreeDifference {
      */
     public Node calculateDifferences(Node rootNode) {
         calculateSum(rootNode);
+        Node node = new Node(0L);
+        Node left, right;
         if (rootNode.getLeft() == null) {
             if (rootNode.getRight() == null) {
                 rootNode.setDifferenceOfLeftAndRight(0L);
             } else {
-                calculateDifferences(rootNode.getRight());
+                right = calculateDifferences(rootNode.getRight());
+                node.setRight(right);
                 rootNode.setDifferenceOfLeftAndRight(-rootNode.getRight().getSumOfAllChildren());
             }
         } else if (rootNode.getRight() == null) {
-            calculateDifferences(rootNode.getLeft());
+            left = calculateDifferences(rootNode.getLeft());
+            node.setLeft(left);
             rootNode.setDifferenceOfLeftAndRight(rootNode.getLeft().getSumOfAllChildren());
         } else {
-            calculateDifferences(rootNode.getLeft());
-            calculateDifferences(rootNode.getRight());
+            left = calculateDifferences(rootNode.getLeft());
+            right = calculateDifferences(rootNode.getRight());
+            node.setLeft(left);
+            node.setRight(right);
             rootNode.setDifferenceOfLeftAndRight(rootNode.getLeft().getSumOfAllChildren()-rootNode.getRight().getSumOfAllChildren());
         }
-        return new Node(rootNode.getDifferenceOfLeftAndRight());
+        node.setValue(rootNode.getDifferenceOfLeftAndRight());
+        return node;
     }
 
     public long calculateSum(Node childNode) {
@@ -70,12 +77,15 @@ public class SubtreeDifference {
         b.setRight(f);
 
         SubtreeDifference solution = new SubtreeDifference();
-        solution.calculateDifferences(rootNode);
+        Node diff = solution.calculateDifferences(rootNode);
 
         if (rootNode.getDifferenceOfLeftAndRight() != -21 ||
                 a.getDifferenceOfLeftAndRight() != -10 ||
                 b.getDifferenceOfLeftAndRight() != -20 ||
-                c.getDifferenceOfLeftAndRight() != 0) {
+                c.getDifferenceOfLeftAndRight() != 0 ||
+                diff.getValue() != -21 ||
+                diff.getRight().getValue() != -20 ||
+                diff.getLeft().getValue() != -10) {
             throw new Exception("There is a mistake in your solution.");
         }
 
