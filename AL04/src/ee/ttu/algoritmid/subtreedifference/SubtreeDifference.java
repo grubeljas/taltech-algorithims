@@ -8,15 +8,21 @@ public class SubtreeDifference {
      * @return root node of the tree where for every node is computed difference of sums of it's left and right children
      */
     public Node calculateDifferences(Node rootNode) {
-        long left = 0;
-        long right = 0;
-        if (rootNode.getLeft() != null) {
-            left = rootNode.getLeft().getSumOfAllChildren();
+        return new Node(calculateSum(rootNode.getLeft()) - calculateSum(rootNode.getRight()));
+    }
+
+    public long calculateSum(Node childNode) {
+        if (childNode.getLeft() == null) {
+            if (childNode.getRight() == null) {
+                return childNode.getValue();
+            } else {
+                return childNode.getValue() + calculateSum(childNode.getRight());
+            }
         }
-        if (rootNode.getRight() != null) {
-            right = rootNode.getRight().getSumOfAllChildren();
+        if (childNode.getRight() == null) {
+            return childNode.getValue() + calculateSum(childNode.getLeft());
         }
-        return new Node(left - right);
+        return childNode.getValue() + calculateSum(childNode.getLeft()) + calculateSum(childNode.getRight());
     }
 
     public static void main(String[] args) throws Exception {
