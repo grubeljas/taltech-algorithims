@@ -8,21 +8,40 @@ public class SubtreeDifference {
      * @return root node of the tree where for every node is computed difference of sums of it's left and right children
      */
     public Node calculateDifferences(Node rootNode) {
-        return new Node(calculateSum(rootNode.getLeft()) - calculateSum(rootNode.getRight()));
+        calculateSum(rootNode);
+        if (rootNode.getLeft() == null) {
+            if (rootNode.getRight() == null) {
+                rootNode.setDifferenceOfLeftAndRight(0L);
+            } else {
+                calculateDifferences(rootNode.getRight());
+                rootNode.setDifferenceOfLeftAndRight(-rootNode.getRight().getSumOfAllChildren());
+            }
+        } else if (rootNode.getRight() == null) {
+            calculateDifferences(rootNode.getLeft());
+            rootNode.setDifferenceOfLeftAndRight(rootNode.getLeft().getSumOfAllChildren());
+        } else {
+            calculateDifferences(rootNode.getLeft());
+            calculateDifferences(rootNode.getRight());
+            rootNode.setDifferenceOfLeftAndRight(rootNode.getLeft().getSumOfAllChildren()-rootNode.getRight().getSumOfAllChildren());
+        }
+        return new Node(rootNode.getDifferenceOfLeftAndRight());
     }
 
     public long calculateSum(Node childNode) {
+        long sum;
         if (childNode.getLeft() == null) {
             if (childNode.getRight() == null) {
-                return childNode.getValue();
+                sum = childNode.getValue();
             } else {
-                return childNode.getValue() + calculateSum(childNode.getRight());
+                sum = childNode.getValue() + calculateSum(childNode.getRight());
             }
+        } else if (childNode.getRight() == null) {
+            sum = childNode.getValue() + calculateSum(childNode.getLeft());
+        } else {
+            sum = childNode.getValue() + calculateSum(childNode.getLeft()) + calculateSum(childNode.getRight());
         }
-        if (childNode.getRight() == null) {
-            return childNode.getValue() + calculateSum(childNode.getLeft());
-        }
-        return childNode.getValue() + calculateSum(childNode.getLeft()) + calculateSum(childNode.getRight());
+        childNode.setSumOfAllChildren(sum);
+        return sum;
     }
 
     public static void main(String[] args) throws Exception {
