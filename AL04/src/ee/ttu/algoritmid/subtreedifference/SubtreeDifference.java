@@ -69,7 +69,7 @@ public class SubtreeDifference {
             throw new Exception("There is a mistake in your solution.");
         }
 
-        System.out.println("Your solution should be working fine in basic cases, try to push.");
+        System.out.println("Your solution should be working fine in basic cases, try to push");
 
     }
 
