@@ -8,40 +8,29 @@ public class SubtreeDifference {
      * @return root node of the tree where for every node is computed difference of sums of it's left and right children
      */
     public Node calculateDifferences(Node rootNode) {
-        calculateSum(rootNode);
         if (rootNode.getLeft() == null) {
             if (rootNode.getRight() == null) {
                 rootNode.setDifferenceOfLeftAndRight(0L);
+                rootNode.setSumOfAllChildren(0L);
             } else {
                 calculateDifferences(rootNode.getRight());
-                rootNode.setDifferenceOfLeftAndRight(-rootNode.getRight().getSumOfAllChildren());
+                rootNode.setSumOfAllChildren(rootNode.getRight().getValue() + rootNode.getRight().getSumOfAllChildren());
+                rootNode.setDifferenceOfLeftAndRight(-rootNode.getSumOfAllChildren());
             }
         } else if (rootNode.getRight() == null) {
             calculateDifferences(rootNode.getLeft());
-            rootNode.setDifferenceOfLeftAndRight(rootNode.getLeft().getSumOfAllChildren());
+            rootNode.setSumOfAllChildren(rootNode.getLeft().getValue() + rootNode.getLeft().getSumOfAllChildren());
+            rootNode.setDifferenceOfLeftAndRight(rootNode.getSumOfAllChildren());
         } else {
             calculateDifferences(rootNode.getLeft());
             calculateDifferences(rootNode.getRight());
-            rootNode.setDifferenceOfLeftAndRight(rootNode.getLeft().getSumOfAllChildren()-rootNode.getRight().getSumOfAllChildren());
+            rootNode.setSumOfAllChildren(rootNode.getLeft().getValue() + rootNode.getLeft().getSumOfAllChildren() +
+                    rootNode.getRight().getValue() + rootNode.getRight().getSumOfAllChildren());
+            rootNode.setDifferenceOfLeftAndRight(rootNode.getSumOfAllChildren()
+                    - 2 * rootNode.getRight().getValue()
+                    - 2 * rootNode.getRight().getSumOfAllChildren());
         }
         return rootNode;
-    }
-
-    public long calculateSum(Node childNode) {
-        long sum;
-        if (childNode.getLeft() == null) {
-            if (childNode.getRight() == null) {
-                sum = childNode.getValue();
-            } else {
-                sum = childNode.getValue() + calculateSum(childNode.getRight());
-            }
-        } else if (childNode.getRight() == null) {
-            sum = childNode.getValue() + calculateSum(childNode.getLeft());
-        } else {
-            sum = childNode.getValue() + calculateSum(childNode.getLeft()) + calculateSum(childNode.getRight());
-        }
-        childNode.setSumOfAllChildren(sum);
-        return sum;
     }
 
     public static void main(String[] args) throws Exception {
@@ -70,17 +59,13 @@ public class SubtreeDifference {
         b.setRight(f);
 
         SubtreeDifference solution = new SubtreeDifference();
-        Node diff = solution.calculateDifferences(rootNode);
-        System.out.println(diff.toString());
+        solution.calculateDifferences(rootNode);
+
 
         if (rootNode.getDifferenceOfLeftAndRight() != -21 ||
                 a.getDifferenceOfLeftAndRight() != -10 ||
                 b.getDifferenceOfLeftAndRight() != -20 ||
-                c.getDifferenceOfLeftAndRight() != 0 ||
-                diff.getValue() != -21 ||
-                diff.getRight().getValue() != -20 ||
-                diff.getLeft().getValue() != -10
-                ) {
+                c.getDifferenceOfLeftAndRight() != 0) {
             throw new Exception("There is a mistake in your solution.");
         }
 
