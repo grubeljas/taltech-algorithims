@@ -1,7 +1,13 @@
 package ee.ttu.algoritmid.erdos;
-import java.util.*;
+
+import java.util.List;
+import java.util.Queue;
+import java.util.ArrayDeque;
 import java.util.AbstractMap.SimpleEntry;
-import java.util.stream.Collectors;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
+
 public class AL05 {
     public Graph graph = new Graph();
 
@@ -53,7 +59,7 @@ public class AL05 {
          * Note that search should always start from "Paul Erdös" whose Erdös number is 0.
          */
         public Integer breadthFirstSearch(String goal) {
-            Queue<String> queue = new PriorityQueue<>();
+            Queue<String> queue = new ArrayDeque<>(graph.size());
             HashMap<String, String> closest = new HashMap<>();
             closest.put("Paul Erdös", null);
             int distance = 0;
@@ -93,10 +99,10 @@ public class AL05 {
      * @return the Erdos number of the scientist
      *
      */
-    public Integer buildGraphAndFindErdosNumber(List<List<String>> coauthors,
+    public Integer buildGraphAndFindErdosNumber(List<SimpleEntry<String, String>> coauthors,
                                                 String scientist) {
-        for (List<String> names: coauthors) {
-            graph.addEdge(names.get(0), names.get(1));
+        for (SimpleEntry<String, String> names: coauthors) {
+            graph.addEdge(names.getKey(), names.getValue());
         }
         return graph.breadthFirstSearch(scientist);
     }
