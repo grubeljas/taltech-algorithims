@@ -60,6 +60,8 @@ public class AL05 {
             String current;
             if (!graph.containsKey("Paul Erdös")) {
                 return -1;
+            } else if (goal.equals("Paul Erdös")) {
+                return 0;
             }
             queue.add("Paul Erdös");
 
@@ -91,10 +93,10 @@ public class AL05 {
      * @return the Erdos number of the scientist
      *
      */
-    public Integer buildGraphAndFindErdosNumber(List<SimpleEntry<String, String>> coauthors,
+    public Integer buildGraphAndFindErdosNumber(List<List<String>> coauthors,
                                                 String scientist) {
-        for (SimpleEntry<String, String> names: coauthors) {
-            graph.addEdge(names.getKey(), names.getValue());
+        for (List<String> names: coauthors) {
+            graph.addEdge(names.get(0), names.get(1));
         }
         return graph.breadthFirstSearch(scientist);
     }
