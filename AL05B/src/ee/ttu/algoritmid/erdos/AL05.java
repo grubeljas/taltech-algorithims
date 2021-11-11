@@ -1,12 +1,7 @@
 package ee.ttu.algoritmid.erdos;
 
-import java.util.List;
-import java.util.Queue;
-import java.util.ArrayDeque;
+import java.util.*;
 import java.util.AbstractMap.SimpleEntry;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
 
 public class AL05 {
     public Graph graph = new Graph();
@@ -60,9 +55,8 @@ public class AL05 {
          */
         public Integer breadthFirstSearch(String goal) {
             Queue<String> queue = new ArrayDeque<>(graph.size());
-            HashMap<String, String> closest = new HashMap<>();
-            closest.put("Paul Erdös", null);
-            int distance = 0;
+            Map<String, Integer> distance = new HashMap<>();
+            Integer erdosNumber = 0;
             String current;
             if (!graph.containsKey("Paul Erdös")) {
                 return -1;
@@ -70,16 +64,17 @@ public class AL05 {
                 return 0;
             }
             queue.add("Paul Erdös");
+            distance.put("Paul Erdös", 0);
 
             while (!queue.isEmpty()) {
                 current = queue.remove();
-                distance++;
+                erdosNumber = distance.get(current) + 1;
                 for (String scientist: graph.get(current)) {
-                    if (!closest.containsKey(scientist)) {
+                    if (!distance.containsKey(scientist)) {
                         queue.add(scientist);
-                        closest.put(scientist, current);
+                        distance.put(scientist, erdosNumber);
                         if (scientist.equals(goal)) {
-                            return distance;
+                            return distance.get(scientist);
                         }
                     }
                 }
