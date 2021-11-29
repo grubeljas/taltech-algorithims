@@ -7,6 +7,9 @@ import java.util.stream.Collectors;
 public class InterestingStamps {
 
     public static List<Integer> findStamps(int sum, List<Integer> stampOptions) throws IllegalArgumentException {
+        if (stampOptions.isEmpty()) {
+            throw new IllegalArgumentException();
+        }
 
         List<Integer>[] seq = new LinkedList[sum+1];
 
@@ -26,8 +29,10 @@ public class InterestingStamps {
                         variant = new LinkedList<>(seq[i - stampOptions.get(j)]);
                     }
                     variant.add(stampOptions.get(j));
+                    if (i > 99 && variant.size() > 4) {
+                        System.out.println(variant);
+                    }
                     seq[i] = max(seq[i], variant);
-                    System.out.println(Arrays.toString(seq));
                 }
             }
         }
@@ -63,7 +68,10 @@ public class InterestingStamps {
         if (sum(i) == sum(j) && i.size() == j.size()) {
             return getValues(i, j);
         }
-        return (sum(i) > sum(j) && i.size() <= j.size()) ? i : j;
+        if (sum(i) == sum(j)) {
+            return (i.size() < j.size()) ? i : j;
+        }
+        return (sum(i) >= sum(j) && i.size() < j.size()) ? i : j;
     }
 
     public static void main(String[] args)
