@@ -2,7 +2,6 @@ package ee.ttu.algoritmid.interestingstamps;
 import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 public class InterestingStamps {
 
@@ -17,7 +16,7 @@ public class InterestingStamps {
             seq[i] = new LinkedList<Integer>();
         }
 
-        for (int i = 0; i <= sum; i++) {
+        for (int i = 0; i < sum + 1; i++) {
             seq[i] = new LinkedList<Integer>();
             for (int j = 0; j < stampOptions.size(); j++){
                 if (stampOptions.get(j) <= i) {
@@ -29,8 +28,10 @@ public class InterestingStamps {
                         variant = new LinkedList<>(seq[i - stampOptions.get(j)]);
                     }
                     variant.add(stampOptions.get(j));
-                    if (i > 99 && variant.size() > 4) {
+                    if (i == 100) {
+                        int s = 1;
                         System.out.println(variant);
+                        System.out.println(seq[i]);
                     }
                     seq[i] = max(seq[i], variant);
                 }
@@ -58,20 +59,16 @@ public class InterestingStamps {
         return (h1 < h2) ? stampOptions2 : stampOptions1;
     }
 
-    private static int max(int i, int j)
-    {
-        return (i > j) ? i : j;
-    }
-
     private static List<Integer> max(List<Integer> i, List<Integer> j)
     {
-        if (sum(i) == sum(j) && i.size() == j.size()) {
-            return getValues(i, j);
-        }
         if (sum(i) == sum(j)) {
+            if (i.size() == j.size()) {
+                return getValues(i, j);
+            }
             return (i.size() < j.size()) ? i : j;
+        } else {
+            return (sum(i) > sum(j)) ? i : j;
         }
-        return (sum(i) >= sum(j) && i.size() < j.size()) ? i : j;
     }
 
     public static void main(String[] args)
@@ -80,5 +77,4 @@ public class InterestingStamps {
         List<Integer> val = List.of(1, 10, 24, 30, 33, 36);
         System.out.println(findStamps(W, val));
     }
-
 }
