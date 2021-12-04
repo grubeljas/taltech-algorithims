@@ -6,6 +6,7 @@ import java.util.List;
 public class ResultSimple implements Result {
 
     public List<String> jumps = new LinkedList<>();
+    public int fine = 0;
 
     @Override
     public List<String> getJumps() {
@@ -22,7 +23,11 @@ public class ResultSimple implements Result {
 
     @Override
     public int getTotalFine() {
-        return 0;
+        return fine;
+    }
+
+    public void addFine(int add) {
+        fine += add;
     }
 
 }
