@@ -32,11 +32,11 @@ public class HW02 implements TrampolineCenter {
         if (max[0] == coordinats[0] && max[1] == coordinats[1]) {
             return result;
         }
+        System.out.println(result.getJumps());
 
         int jumpForce = fMap[coordinats[0]][coordinats[1]].getJumpForce();
         int[] southCoordinats, eastCoordinats;
         Result east = new ResultSimple(), south = new ResultSimple();
-        int jump;
 
         if (coordinats[0] + jumpForce <= max[0]) {
             //South
