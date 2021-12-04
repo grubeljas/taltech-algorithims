@@ -15,11 +15,7 @@ public class HW02 implements TrampolineCenter {
         int[] coordinats = new int[]{0, 0};
         max = new int[]{fMap.length - 1, fMap[0].length - 1};
         ResultSimple result = new ResultSimple();
-        if (hasWalls()) {
-            return recJumpWithWalls(coordinats, result);
-        } else {
-            return recJumpSimple(coordinats, result);
-        }
+        return recJumpWithWalls(coordinats, result);
     }
 
     /**
