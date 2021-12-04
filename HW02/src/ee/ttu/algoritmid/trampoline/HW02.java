@@ -22,6 +22,12 @@ public class HW02 implements TrampolineCenter {
         }
     }
 
+    /**
+     * Jump algorith with no wall and =.
+     * @param coordinats
+     * @param result
+     * @return
+     */
     public Result recJumpSimple(int[] coordinats, ResultSimple result) {
         if (max[0] == coordinats[0] && max[1] == coordinats[1]) {
             return result;
