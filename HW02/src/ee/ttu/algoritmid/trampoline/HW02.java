@@ -17,17 +17,17 @@ public class HW02 implements TrampolineCenter {
     }
 
     public Result recJump(int[] coordinats, ResultSimple result) {
+        System.out.println(result.getJumps());
         if (max[0] == coordinats[0] && max[1] == coordinats[1]) {
             return result;
         }
-        System.out.println(result.getJumps());
 
         int jumpForce = fMap[coordinats[0]][coordinats[1]].getJumpForce();
         int[] southCoordinats, eastCoordinats;
         Result east = new ResultSimple(), south = new ResultSimple();
         int jump;
 
-        if (coordinats[0] + jumpForce <= max[0]) {
+        if (!fMap[coordinats[0] + 1][coordinats[1]].getType().equals(Trampoline.Type.WALL)) {
             //South
             jump = jumpForce;
             for (int i = 1; i < jumpForce; i++) {
@@ -42,7 +42,7 @@ public class HW02 implements TrampolineCenter {
             southResult.setJumps(new ArrayList<>(result.getJumps().subList(0, result.getJumps().size())));
             southResult.addJumps("S" + jump);
             south = recJump(southCoordinats, southResult);
-        } else if (coordinats[1] + jumpForce <= max[1]) {
+        } else if (!fMap[coordinats[0]][coordinats[1] + 1].getType().equals(Trampoline.Type.WALL)) {
             //East
             jump = jumpForce;
             for (int i = 1; i < jumpForce; i++) {
