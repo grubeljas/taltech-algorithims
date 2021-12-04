@@ -27,36 +27,49 @@ public class HW02 implements TrampolineCenter {
         Result east = new ResultSimple(), south = new ResultSimple();
         int jump;
 
-        if (!fMap[coordinats[0] + 1][coordinats[1]].getType().equals(Trampoline.Type.WALL)) {
-            //South
-            jump = jumpForce;
-            for (int i = 1; i < jumpForce; i++) {
-                if (fMap[coordinats[0] + i][coordinats[1]].getType().equals(Trampoline.Type.WALL) ||
-                        coordinats[0] + i > max[0]) { //мб разделить условия на два ифа
-                    jump = i - 1;
-                    break;
+        if (coordinats[0] != max[0]) {
+            if (!fMap[coordinats[0] + 1][coordinats[1]].getType().equals(Trampoline.Type.WALL)) {
+                //South
+                jump = jumpForce;
+                for (int i = 1; i < jumpForce; i++) {
+                    if (coordinats[0] + i == max[0] + 1) {
+                        jump = i - 1;
+                        break;
+                    }
+                    if (fMap[coordinats[0] + i][coordinats[1]].getType().equals(Trampoline.Type.WALL) ||
+                            coordinats[0] + i > max[0]) { //мб разделить условия на два ифа
+                        jump = i - 1;
+                        break;
+                    }
                 }
+                southCoordinats = new int[]{coordinats[0] + jump, coordinats[1]};
+                ResultSimple southResult = new ResultSimple();
+                southResult.setJumps(new ArrayList<>(result.getJumps().subList(0, result.getJumps().size())));
+                southResult.addJumps("S" + jump);
+                south = recJump(southCoordinats, southResult);
             }
-            southCoordinats = new int[]{coordinats[0] + jump, coordinats[1]};
-            ResultSimple southResult = new ResultSimple();
-            southResult.setJumps(new ArrayList<>(result.getJumps().subList(0, result.getJumps().size())));
-            southResult.addJumps("S" + jump);
-            south = recJump(southCoordinats, southResult);
-        } else if (!fMap[coordinats[0]][coordinats[1] + 1].getType().equals(Trampoline.Type.WALL)) {
-            //East
-            jump = jumpForce;
-            for (int i = 1; i < jumpForce; i++) {
-                if (fMap[coordinats[0]][coordinats[1] + i].getType().equals(Trampoline.Type.WALL) ||
-                        coordinats[1] + i > max[1]) { //мб разделить условия на два ифа
-                    jump = i - 1;
-                    break;
+        }
+        if (max[1] != coordinats[1]) {
+            if (!fMap[coordinats[0]][coordinats[1] + 1].getType().equals(Trampoline.Type.WALL)) {
+                //East
+                jump = jumpForce;
+                for (int i = 1; i < jumpForce; i++) {
+                    if (coordinats[1] + i == max[1] + 1) {
+                        jump = i - 1;
+                        break;
+                    }
+                    if (fMap[coordinats[0]][coordinats[1] + i].getType().equals(Trampoline.Type.WALL) ||
+                            coordinats[1] + i > max[1]) { //мб разделить условия на два ифа
+                        jump = i - 1;
+                        break;
+                    }
                 }
+                eastCoordinats = new int[]{coordinats[0], coordinats[1] + jump};
+                ResultSimple eastResult = new ResultSimple();
+                eastResult.setJumps(new ArrayList<>(result.getJumps().subList(0, result.getJumps().size())));
+                eastResult.addJumps("E" + jump);
+                east = recJump(eastCoordinats, eastResult);
             }
-            eastCoordinats = new int[]{coordinats[0], coordinats[1] + jump};
-            ResultSimple eastResult = new ResultSimple();
-            eastResult.setJumps(new ArrayList<>(result.getJumps().subList(0, result.getJumps().size())));
-            eastResult.addJumps("E" + jump);
-            east = recJump(eastCoordinats, eastResult);
         }
 
         if (south.getJumps().size() == 0) {
