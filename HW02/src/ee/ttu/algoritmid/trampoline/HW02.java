@@ -1,6 +1,8 @@
 package ee.ttu.algoritmid.trampoline;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.function.Predicate;
 
 public class HW02 implements TrampolineCenter {
 
@@ -13,10 +15,48 @@ public class HW02 implements TrampolineCenter {
         int[] coordinats = new int[]{0, 0};
         max = new int[]{fMap.length - 1, fMap[0].length - 1};
         ResultSimple result = new ResultSimple();
-        return recJump(coordinats, result);
+        if (hasWalls()) {
+            return recJumpWithWalls(coordinats, result);
+        } else {
+            return recJumpSimple(coordinats, result);
+        }
     }
 
-    public Result recJump(int[] coordinats, ResultSimple result) {
+    public Result recJumpSimple(int[] coordinats, ResultSimple result) {
+        if (max[0] == coordinats[0] && max[1] == coordinats[1]) {
+            return result;
+        }
+
+        int jumpForce = fMap[coordinats[0]][coordinats[1]].getJumpForce();
+        int[] southCoordinats, eastCoordinats;
+        Result east = new ResultSimple(), south = new ResultSimple();
+        int jump;
+
+        if (coordinats[0] + jumpForce <= max[0]) {
+            //South
+            southCoordinats = new int[]{coordinats[0] + jumpForce, coordinats[1]};
+            ResultSimple southResult = new ResultSimple();
+            southResult.setJumps(new ArrayList<>(result.getJumps().subList(0, result.getJumps().size())));
+            southResult.addJumps("S" + jumpForce);
+            south = recJumpSimple(southCoordinats, southResult);
+        } else if (coordinats[1] + jumpForce <= max[1]) {
+            //East
+            eastCoordinats = new int[]{coordinats[0], coordinats[1] + jumpForce};
+            ResultSimple eastResult = new ResultSimple();
+            eastResult.setJumps(new ArrayList<>(result.getJumps().subList(0, result.getJumps().size())));
+            eastResult.addJumps("E" + jumpForce);
+            east = recJumpSimple(eastCoordinats, eastResult);
+        }
+
+        if (south.getJumps().size() == 0) {
+            return east;
+        } else if (east.getJumps().size() == 0) {
+            return south;
+        }
+        return (south.getJumps().size() < east.getJumps().size()) ? south : east;
+    }
+
+    public Result recJumpWithWalls(int[] coordinats, ResultSimple result) {
         System.out.println(result.getJumps());
         if (max[0] == coordinats[0] && max[1] == coordinats[1]) {
             return result;
@@ -46,7 +86,7 @@ public class HW02 implements TrampolineCenter {
                     ResultSimple southResult = new ResultSimple();
                     southResult.setJumps(new ArrayList<>(result.getJumps().subList(0, result.getJumps().size())));
                     southResult.addJumps("S" + jump);
-                    south = recJump(southCoordinats, southResult);
+                    south = recJumpWithWalls(southCoordinats, southResult);
                 }
             }
         }
@@ -69,7 +109,7 @@ public class HW02 implements TrampolineCenter {
                     ResultSimple eastResult = new ResultSimple();
                     eastResult.setJumps(new ArrayList<>(result.getJumps().subList(0, result.getJumps().size())));
                     eastResult.addJumps("E" + jump);
-                    east = recJump(eastCoordinats, eastResult);
+                    east = recJumpWithWalls(eastCoordinats, eastResult);
                 }
             }
         }
@@ -80,6 +120,15 @@ public class HW02 implements TrampolineCenter {
             return south;
         }
         return (south.getJumps().size() < east.getJumps().size()) ? south : east;
+    }
+
+    public boolean hasWalls() {
+        for (Trampoline[] trampoline: fMap) {
+            if (Arrays.stream(trampoline).anyMatch(trampoline1 -> trampoline1.getType().equals(Trampoline.Type.WALL))) {
+                return true;
+            }
+        }
+        return false;
     }
 
 }
