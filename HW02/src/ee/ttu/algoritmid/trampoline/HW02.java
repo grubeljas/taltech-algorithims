@@ -13,52 +13,14 @@ public class HW02 implements TrampolineCenter {
         int[] coordinats = new int[]{0, 0};
         max = new int[]{fMap.length - 1, fMap[0].length - 1};
         ResultSimple result = new ResultSimple();
-        if (hasWalls()) {
-            return recJumpWithWalls(coordinats, result);
-        } else {
-            return recJumpSimple(coordinats, result);
-        }
+        return recJumpWithWalls(coordinats, result);
     }
-
-    public Result recJumpSimple(int[] coordinats, ResultSimple result) {
-        if (max[0] == coordinats[0] && max[1] == coordinats[1]) {
-            return result;
-        }
-
-        int jumpForce = fMap[coordinats[0]][coordinats[1]].getJumpForce();
-        int[] southCoordinats, eastCoordinats;
-        Result east = new ResultSimple(), south = new ResultSimple();
-
-        if (coordinats[0] + jumpForce <= max[0]) {
-            //South
-            southCoordinats = new int[]{coordinats[0] + jumpForce, coordinats[1]};
-            ResultSimple southResult = new ResultSimple();
-            southResult.setJumps(new ArrayList<>(result.getJumps().subList(0, result.getJumps().size())));
-            southResult.addJumps("S" + jumpForce);
-            south = recJumpSimple(southCoordinats, southResult);
-        } else if (coordinats[1] + jumpForce <= max[1]) {
-            //East
-            eastCoordinats = new int[]{coordinats[0], coordinats[1] + jumpForce};
-            ResultSimple eastResult = new ResultSimple();
-            eastResult.setJumps(new ArrayList<>(result.getJumps().subList(0, result.getJumps().size())));
-            eastResult.addJumps("E" + jumpForce);
-            east = recJumpSimple(eastCoordinats, eastResult);
-        }
-
-        if (south.getJumps().size() == 0) {
-            return east;
-        } else if (east.getJumps().size() == 0) {
-            return south;
-        }
-        return (south.getJumps().size() < east.getJumps().size()) ? south : east;
-    }
-
 
     /**
-     * Jump algorith with no wall and =.
-     * @param coordinats
-     * @param result
-     * @return
+     * Recursive jump algorithm with no wall and =.
+     * @param coordinats int[] of current square.
+     * @param result Result object of current square.
+     * @return Result of 0 square.
      */
     public Result recJumpWithWalls(int[] coordinats, ResultSimple result) {
         System.out.println(result.getJumps());
@@ -124,16 +86,5 @@ public class HW02 implements TrampolineCenter {
             return south;
         }
         return (south.getJumps().size() < east.getJumps().size()) ? south : east;
-    }
-
-    public boolean hasWalls() {
-        for (Trampoline[] trampolineArray: fMap) {
-            for (Trampoline trampoline: trampolineArray) {
-                if (trampoline.getType().equals(Trampoline.Type.WALL)) {
-                    return true;
-                }
-            }
-        }
-        return false;
     }
 }
