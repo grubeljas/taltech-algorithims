@@ -1,7 +1,5 @@
 package ee.ttu.algoritmid.trampoline;
 
-import java.util.ArrayList;
-import java.util.LinkedList;
 import java.util.List;
 
 public class SomeTests {
@@ -36,7 +34,6 @@ public class SomeTests {
         HW02 solution = new HW02();
 
         Result gameResult = solution.play(map);
-        System.out.println(gameResult);
 
         List<String> defaultSolution = List.of("S1", "E2", "S1");
         int defaultTotalFine = 0;
@@ -57,33 +54,6 @@ public class SomeTests {
         } else {
             System.out.println("+- case is fine");
         }
-    }
-
-    public static void main1(String[] args) {
-        Result result = new Result() {
-
-            List<String> s = List.of("1", "s");
-
-            @Override
-            public List<String> getJumps() {
-                return s;
-            }
-
-            @Override
-            public int getTotalFine() {
-                return 0;
-            }
-        };
-
-        ResultSimple r = new ResultSimple();
-        System.out.println(result.getJumps());
-        List<String> s = new ArrayList<>(result.getJumps().subList(0, result.getJumps().size()));
-        r.setJumps(s);
-        r.addJumps("12");
-
-
-        System.out.println(result.getJumps());
-        System.out.println(r.getJumps());
     }
 
 }
