@@ -49,11 +49,17 @@ public class AL07 {
     }
 
     public void friendly(String name) {
+        if (!disjointSubsets.parent.containsKey(name)) {
+            addPerson(name);
+        }
         networks.put(name, Network.FRIENDLY);
         networks.put(disjointSubsets.find(name), Network.FRIENDLY);
     }
 
     public void unfriendly(String name) {
+        if (!disjointSubsets.parent.containsKey(name)) {
+            addPerson(name);
+        }
         networks.put(name, Network.UNFRIENDLY);
         networks.put(disjointSubsets.find(name), Network.UNFRIENDLY);
     }
