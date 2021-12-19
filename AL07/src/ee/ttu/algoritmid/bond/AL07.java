@@ -23,6 +23,12 @@ public class AL07 {
     }
 
     public void talkedToEachOther(String name1, String name2) {
+        if (!disjointSubsets.parent.containsKey(name1)) {
+            addPerson(name1);
+        }
+        if (!disjointSubsets.parent.containsKey(name2)) {
+            addPerson(name2);
+        }
         disjointSubsets.union(name1, name2);
         if (!networks.get(name1).equals(Network.UNKNOWN) ||
                 !networks.get(disjointSubsets.find(name1)).equals(Network.UNKNOWN)) {
@@ -55,4 +61,6 @@ public class AL07 {
     public Network memberOfNetwork(String name) {
         return networks.get(disjointSubsets.find(name));
     }
+    
+
 }
