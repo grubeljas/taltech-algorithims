@@ -29,7 +29,6 @@ public class AL07 {
         if (!disjointSubsets.parent.containsKey(name2)) {
             addPerson(name2);
         }
-        disjointSubsets.union(name1, name2);
         if (!networks.get(name1).equals(Network.UNKNOWN) ||
                 !networks.get(disjointSubsets.find(name1)).equals(Network.UNKNOWN)) {
             Network network = networks.get(disjointSubsets.find(name1));
@@ -41,6 +40,7 @@ public class AL07 {
             networks.put(name1, network);
             networks.put(disjointSubsets.find(name1), network);
         }
+        disjointSubsets.union(name1, name2);
     }
 
     public void addPerson(String name) {
