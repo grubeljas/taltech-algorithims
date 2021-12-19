@@ -32,14 +32,14 @@ public class AL07 {
         disjointSubsets.union(name1, name2);
         if (!networks.get(name1).equals(Network.UNKNOWN) ||
                 !networks.get(disjointSubsets.find(name1)).equals(Network.UNKNOWN)) {
-            Network network = networks.get(disjointSubsets.find(name2));
-            networks.put(name1, network);
-            networks.put(disjointSubsets.find(name1), network);
-        } else if (!networks.get(name2).equals(Network.UNKNOWN) ||
-                !networks.get(disjointSubsets.find(name2)).equals(Network.UNKNOWN)) {
             Network network = networks.get(disjointSubsets.find(name1));
             networks.put(name2, network);
             networks.put(disjointSubsets.find(name2), network);
+        } else if (!networks.get(name2).equals(Network.UNKNOWN) ||
+                !networks.get(disjointSubsets.find(name2)).equals(Network.UNKNOWN)) {
+            Network network = networks.get(disjointSubsets.find(name2));
+            networks.put(name1, network);
+            networks.put(disjointSubsets.find(name1), network);
         }
     }
 
@@ -61,6 +61,14 @@ public class AL07 {
     public Network memberOfNetwork(String name) {
         return networks.get(disjointSubsets.find(name));
     }
-    
+
+    public static void main(String[] args) {
+        AL07 al07 = new AL07();
+        al07.addPerson("1");
+        al07.addPerson("2");
+        al07.friendly("2");
+        al07.talkedToEachOther("1", "2");
+        System.out.println(al07.networks);
+    }
 
 }
