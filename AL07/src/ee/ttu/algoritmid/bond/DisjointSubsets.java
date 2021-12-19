@@ -57,7 +57,7 @@ public class DisjointSubsets {
     }
 
     public void checkElement(String element) throws IllegalArgumentException {
-        if (element.isEmpty()) {
+        if (element == null) {
             throw new IllegalArgumentException();
         }
     }
