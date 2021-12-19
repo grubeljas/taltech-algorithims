@@ -1,10 +1,16 @@
 package ee.ttu.algoritmid.bond;
 
+import java.awt.List;
+import java.util.HashMap;
+import java.util.LinkedList;
+
 public class AL07 {
 
     public enum Network {
         FRIENDLY, UNFRIENDLY, UNKNOWN;
     }
+
+    public HashMap<String, Network> networks = new HashMap();
 
     private DisjointSubsets disjointSubsets = new DisjointSubsets();
 
@@ -17,24 +23,36 @@ public class AL07 {
     }
 
     public void talkedToEachOther(String name1, String name2) {
-        // TODO
+        disjointSubsets.union(name1, name2);
+        if (!networks.get(name1).equals(Network.UNKNOWN) ||
+                !networks.get(disjointSubsets.find(name1)).equals(Network.UNKNOWN)) {
+            Network network = networks.get(disjointSubsets.find(name2));
+            networks.put(name1, network);
+            networks.put(disjointSubsets.find(name1), network);
+        } else if (!networks.get(name2).equals(Network.UNKNOWN) ||
+                !networks.get(disjointSubsets.find(name2)).equals(Network.UNKNOWN)) {
+            Network network = networks.get(disjointSubsets.find(name1));
+            networks.put(name2, network);
+            networks.put(disjointSubsets.find(name2), network);
+        }
     }
 
     public void addPerson(String name) {
-        // TODO
+        disjointSubsets.addSubset(name);
+        networks.put(name, Network.UNKNOWN);
     }
 
     public void friendly(String name) {
-        // TODO
+        networks.put(name, Network.FRIENDLY);
+        networks.put(disjointSubsets.find(name), Network.FRIENDLY);
     }
 
     public void unfriendly(String name) {
-        // TODO
+        networks.put(name, Network.UNFRIENDLY);
+        networks.put(disjointSubsets.find(name), Network.UNFRIENDLY);
     }
 
     public Network memberOfNetwork(String name) {
-        // TODO
-        return null;
+        return networks.get(disjointSubsets.find(name));
     }
-
 }
