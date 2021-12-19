@@ -65,10 +65,15 @@ public class AL07 {
     public static void main(String[] args) {
         AL07 al07 = new AL07();
         al07.addPerson("1");
+        al07.addPerson("11");
+        al07.talkedToEachOther("1", "11");
         al07.addPerson("2");
-        al07.friendly("2");
+        al07.addPerson("22");
+        al07.unfriendly("2");
+        al07.talkedToEachOther("2", "22");
         al07.talkedToEachOther("1", "2");
         System.out.println(al07.networks);
+        System.out.println(al07.memberOfNetwork("11"));
     }
 
 }
